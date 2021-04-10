@@ -15,25 +15,25 @@
                         <div class="mb-3">
                             <label class="form-label">Title</label>
                             <input type="text" class="form-control" v-model='transaction.title'>
-                            <div class="text-danger">
-                                validation message
+                            <div class="text-danger" v-if="validation.title">
+                                {{ validation.title[0] }}
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Price</label>
                             <input type="number" class="form-control" v-model='transaction.price'>
-                            <div class="text-danger">
-                                validation message
+                            <div class="text-danger" v-if="validation.price">
+                                {{ validation.price[0] }}
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Type</label>
                             <select class="form-select" v-model='transaction.type'>
-                                <option value="expensive">expensive</option>
-                                <option value="cheap">cheap</option>
+                                <option value="Expensive">Expensive</option>
+                                <option value="Cheap">Cheap</option>
                             </select>
-                            <div class="text-danger">
-                                validation message
+                            <div class="text-danger" v-if="validation.type">
+                                {{ validation.type[0] }}
                             </div>
                         </div>
                         <button class="btn btn-success">Add Data Transaction</button>
@@ -68,8 +68,7 @@ import axios from 'axios'
                 .then(() => {
                     router.push({name: 'transaction.index'});
                 }).catch((err) => {
-                    console.log(err.response)
-                    // validation.value = err.response.data
+                    validation.value = err.response.data
                 });
             }
     

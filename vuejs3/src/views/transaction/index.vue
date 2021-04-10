@@ -28,7 +28,7 @@
                                 <td class="text-center">  
                                     <router-link :to="{name: 'transaction.edit', params:{id: transaction.id}}" class="btn btn-sm btn-primary"> Edit Data </router-link>
                                     ||
-                                    <button class="btn btn-sm btn-danger"> Delete Data </button>
+                                    <button class="btn btn-sm btn-danger" @click.prevent="deletedData(transaction.id, index)"> Delete Data </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -49,17 +49,31 @@ import {onMounted, ref} from "vue"
             let transaction = ref([]);
 
             onMounted(() => {
-                axios.get('http://127.0.0.1:8000/api/transaction').then((result) =>{
+                axios.get('http://127.0.0.1:8000/api/transaction')
+                .then((result) =>{
                     transaction.value = result.data
                 }).catch((err) =>{
-                    console.log(err.response)
+                    console.log(err.response);
                 });
             });
-        
-            return {
-                transaction
+
+            function deletedData(id, index){
+                if(confirm("are you sure ?")){
+                    axios.delete('http://127.0.0.1:8000/api/transaction/' + id)
+                    .then(() =>{
+                        transaction.value.data.splice(index, 1);
+                    }).catch((err) =>{
+                        console.log(err.response.data);
+                    });
+                }
             }
 
-        }    
+        
+            return {
+                transaction,
+                deletedData,
+            }
+
+        }
     }
 </script>

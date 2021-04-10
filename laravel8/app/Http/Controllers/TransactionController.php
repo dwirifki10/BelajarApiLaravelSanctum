@@ -38,7 +38,7 @@ class TransactionController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => ['required'],
             'price' => ['required', 'numeric'],
-            'type' => ['required', 'in:cheap,expensive']
+            'type' => ['required', 'in:Cheap,Expensive']
         ]);
 
         if($validator->fails()){
@@ -72,7 +72,7 @@ class TransactionController extends Controller
 
         $response = [
             'message' => 'Data displayed',
-            'data' => $transaction->get()
+            'data' => $transaction
         ];
 
         return response()->json($response, Response::HTTP_OK);
@@ -92,7 +92,7 @@ class TransactionController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => ['required'],
             'price' => ['required', 'numeric'],
-            'type' => ['required', 'in:cheap,expensive']
+            'type' => ['required', 'in:Cheap,Expensive']
         ]);
 
         if($validator->fails()){

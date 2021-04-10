@@ -21,15 +21,12 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::group(['middleware' => 'auth:sanctum'], function(){
-//     Route::get('/transaction', [TransactionController::class, 'index']);
-//     Route::post('/transaction', [TransactionController::class, 'store']);
-//     Route::put('/transaction/{id}', [TransactionController::class, 'update']);
-//     Route::get('/transaction/{id}', [TransactionController::class, 'show']);
-//     Route::delete('/transaction/{id}', [TransactionController::class, 'destroy']);
+//     Route::resource('/transaction', TransactionController::class)->except(['create', 'edit']);
 // });
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
+// without api sanctum
 Route::resource('/transaction', TransactionController::class)->except(['create', 'edit']);
 
