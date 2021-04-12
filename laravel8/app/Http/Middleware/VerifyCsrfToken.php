@@ -13,6 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         /** localhost 419 for vue js */
-        "*"
+        // '*'
     ];
 }
