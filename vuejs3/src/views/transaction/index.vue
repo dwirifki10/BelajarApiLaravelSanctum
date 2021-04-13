@@ -2,10 +2,11 @@
  <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-8">
+            <button class="btn btn-danger btn-sm rounded mb-3">Log Out</button>
+            <br>
             <router-link :to="{name: 'transaction.create'}" class="btn btn-primary btn-sm rounded shadow mb-3">
                 Add Data
             </router-link>
-
             <div class="card rounded shadow">
                 <div class="card header mb-2">
                     <h2 class="text-secondary text-center">TRANSACTION DATA</h2>
@@ -42,14 +43,29 @@
 
 <script>
 import axios from "axios"
-import {onMounted, ref} from "vue"
+import {useRouter} from 'vue-router'
+import {onMounted, ref, reactive, onBeforeMount} from "vue"
     
     export default {
         setup(){
+
+            let user = reactive({
+                token: localStorage.getItem('token'),
+                loggedIn: localStorage.getItem('loggedIn'),
+            })
+
             let transaction = ref([]);
 
+            const router = useRouter();
+
+            onBeforeMount(()=>{
+                if(!user.loggedIn){
+                    router.push({name: 'authentication.login'});
+                }
+            })
+
             onMounted(() => {
-                axios.get('http://127.0.0.1:8000/api/transaction')
+                axios.get('http://localhost:8000/api/transaction', {headers: {'Authorization': 'Bearer ' + user.token}})
                 .then((result) =>{
                     transaction.value = result.data
                 }).catch((err) =>{
@@ -59,7 +75,7 @@ import {onMounted, ref} from "vue"
 
             function deletedData(id, index){
                 if(confirm("are you sure ?")){
-                    axios.delete('http://127.0.0.1:8000/api/transaction/' + id)
+                    axios.delete('http://localhost:8000/api/transaction/' + id)
                     .then(() =>{
                         transaction.value.data.splice(index, 1);
                     }).catch((err) =>{
@@ -67,13 +83,14 @@ import {onMounted, ref} from "vue"
                     });
                 }
             }
-
         
             return {
                 transaction,
                 deletedData,
+                router,
             }
 
         }
+
     }
 </script>

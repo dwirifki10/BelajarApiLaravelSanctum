@@ -15,6 +15,11 @@ const routes = [
         path: '/edit/:id',
         name: 'transaction.edit',
         component: () => import('../views/transaction/edit.vue')
+    },
+    {
+        path: '/login',
+        name: 'authentication.login',
+        component: () => import('../views/authentication/login.vue')
     }
 ];
 

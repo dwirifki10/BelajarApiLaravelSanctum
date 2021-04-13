@@ -63,7 +63,7 @@ import axios from 'axios'
             const router = useRouter();
 
             function store(){
-                axios.post('http://127.0.0.1:8000/api/transaction', transaction)
+                axios.post('http://localhost:8000/api/transaction', transaction)
                 .then(() => {
                     router.push({name: 'transaction.index'});
                 }).catch((err) => {
